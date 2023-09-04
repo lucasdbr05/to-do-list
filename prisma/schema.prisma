@@ -13,23 +13,23 @@ datasource db {
 model Checklist{
   id      Int @id @default(autoincrement())
   name    String   @unique
-  Task    Task[]
+  // Task    Task[]
 }
 
 
-model Task{
-  id         Int        @id @default(autoincrement())
-  done       Boolean    @default(false)
-  mission    String     
-  deadline   DateTime?  
-  List       Checklist @relation(fields:[listId], references: [id])
-  listId      Int    
-} 
+// model Task{
+//   id         Int        @id @default(autoincrement())
+//   done       Boolean    @default(false)
+//   mission    String     
+//   deadline   DateTime?  
+//   List       Checklist @relation(fields:[listId], references: [id])
+//   listId      Int    
+// } 
 
 
-model DoneTasks{
-  id         Int        @id 
-  done       Boolean    @default(true)
-  mission    String     
-  deadline   DateTime? 
-}
+// model DoneTasks{
+//   id         Int        @id 
+//   done       Boolean    @default(true)
+//   mission    String     
+//   deadline   DateTime? 
+// }
