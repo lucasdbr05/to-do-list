@@ -74,4 +74,34 @@ export class TaskService {
       },
     });
   }
+
+  async deleteDone() {
+    return await this.prisma.task.deleteMany({
+      where: {
+        isActive: false,
+      },
+    });
+  }
+
+  async getTasksByDoneorActive() {
+    const activerOrDone = { active: [], done: [] };
+    const active = await this.prisma.task.findMany({
+      where: {
+        isActive: true,
+      },
+    });
+    const done = await this.prisma.task.findMany({
+      where: {
+        isActive: false,
+      },
+    });
+
+    active.forEach((t) => {
+      activerOrDone['active'].push(t);
+    });
+    done.forEach((t) => {
+      activerOrDone['done'].push(t);
+    });
+    return activerOrDone;
+  }
 }

@@ -38,4 +38,9 @@ export class TaskController {
   async erase(@Param('id') id: string) {
     return this.taskService.erase(id);
   }
+
+  @Delete('delete-done')
+  async deleteDone() {
+    return this.taskService.deleteDone();
+  }
 }
