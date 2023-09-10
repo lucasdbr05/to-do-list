@@ -9,40 +9,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChecklistService = void 0;
+exports.CategoryService = void 0;
 const common_1 = require("@nestjs/common");
 const PrismaService_1 = require("../database/PrismaService");
-let ChecklistService = class ChecklistService {
+let CategoryService = class CategoryService {
     constructor(prisma) {
         this.prisma = prisma;
     }
     async create(data) {
-        const checklistExists = await this.prisma.checklist.findFirst({
+        const categoryExists = await this.prisma.category.findFirst({
             where: {
                 name: data.name,
             },
         });
-        if (checklistExists) {
-            throw new Error('Checklist already exist!');
+        if (categoryExists) {
+            throw new Error('Category already exists!');
         }
-        const checklist = await this.prisma.checklist.create({
+        return await this.prisma.category.create({
             data,
         });
-        return checklist;
     }
-    async findAll() {
-        return this.prisma.checklist.findMany();
+    async findCategories() {
+        return this.prisma.category.findMany();
     }
     async update(id, data) {
-        const checklistExists = await this.prisma.checklist.findUnique({
+        const categoryExists = await this.prisma.category.findUnique({
             where: {
                 id: parseInt(id),
             },
         });
-        if (!checklistExists) {
-            throw new Error("Checklist doesn't exists");
+        if (!categoryExists) {
+            throw new Error("Category doesn't exists");
         }
-        return await this.prisma.checklist.update({
+        return await this.prisma.category.update({
             where: {
                 id: parseInt(id),
             },
@@ -50,24 +49,46 @@ let ChecklistService = class ChecklistService {
         });
     }
     async erase(id) {
-        const checklistExists = await this.prisma.checklist.findUnique({
+        const categoryExists = await this.prisma.category.findUnique({
             where: {
                 id: parseInt(id),
             },
+            include: {
+                Task: true,
+            },
         });
-        if (!checklistExists) {
-            throw new Error("Checklist doesn't exists");
+        if (!categoryExists) {
+            throw new Error("Category doesn't exists");
         }
-        return await this.prisma.checklist.delete({
+        await this.prisma.task.findMany({
+            where: {
+                categoryId: parseInt(id),
+            },
+        });
+        return await this.prisma.category.delete({
             where: {
                 id: parseInt(id),
             },
         });
     }
+    async findCategory(id) {
+        const categoryExists = await this.prisma.category.findUnique({
+            where: {
+                id: parseInt(id),
+            },
+            include: {
+                Task: true,
+            },
+        });
+        if (!categoryExists) {
+            throw new Error('Category not found');
+        }
+        return categoryExists;
+    }
 };
-exports.ChecklistService = ChecklistService;
-exports.ChecklistService = ChecklistService = __decorate([
+exports.CategoryService = CategoryService;
+exports.CategoryService = CategoryService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [PrismaService_1.PrismaService])
-], ChecklistService);
-//# sourceMappingURL=checklist.service.js.map
+], CategoryService);
+//# sourceMappingURL=category.service.js.map

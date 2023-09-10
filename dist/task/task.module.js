@@ -6,18 +6,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChecklistModule = void 0;
+exports.TaskModule = void 0;
 const common_1 = require("@nestjs/common");
-const checklist_service_1 = require("./checklist.service");
-const checklist_controller_1 = require("./checklist.controller");
+const task_service_1 = require("./task.service");
+const task_controller_1 = require("./task.controller");
 const PrismaService_1 = require("../database/PrismaService");
-let ChecklistModule = class ChecklistModule {
+let TaskModule = class TaskModule {
 };
-exports.ChecklistModule = ChecklistModule;
-exports.ChecklistModule = ChecklistModule = __decorate([
+exports.TaskModule = TaskModule;
+exports.TaskModule = TaskModule = __decorate([
     (0, common_1.Module)({
-        controllers: [checklist_controller_1.ChecklistController],
-        providers: [checklist_service_1.ChecklistService, PrismaService_1.PrismaService],
+        controllers: [task_controller_1.TaskController],
+        providers: [task_service_1.TaskService, PrismaService_1.PrismaService],
     })
-], ChecklistModule);
-//# sourceMappingURL=checklist.module.js.map
+], TaskModule);
+//# sourceMappingURL=task.module.js.map

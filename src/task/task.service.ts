@@ -14,8 +14,17 @@ export class TaskService {
         categoryId: data.categoryId,
       },
     });
+
+    const categoryExists = await this.prisma.category.findUnique({
+      where: {
+        id: data.categoryId,
+      },
+    });
     if (taskExists) {
       throw new Error('Task already exists');
+    }
+    if (!categoryExists) {
+      throw new Error("Category doesn't exists");
     }
     return await this.prisma.task.create({
       data,

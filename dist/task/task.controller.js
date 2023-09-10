@@ -12,57 +12,76 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChecklistController = void 0;
+exports.TaskController = void 0;
 const common_1 = require("@nestjs/common");
-const checklist_service_1 = require("./checklist.service");
-let ChecklistController = class ChecklistController {
-    constructor(checklistService) {
-        this.checklistService = checklistService;
+const task_service_1 = require("./task.service");
+let TaskController = class TaskController {
+    constructor(taskService) {
+        this.taskService = taskService;
     }
     async create(data) {
-        return this.checklistService.create(data);
+        return this.taskService.create(data);
     }
-    async findAll() {
-        return this.checklistService.findAll();
+    async findAllTasks() {
+        return this.taskService.findAllTasks();
+    }
+    async findTask(id) {
+        return this.taskService.findTask(id);
     }
     async update(id, data) {
-        return this.checklistService.update(id, data);
+        return this.taskService.update(id, data);
     }
     async erase(id) {
-        return this.checklistService.erase(id);
+        return this.taskService.erase(id);
+    }
+    async deleteDone() {
+        return this.taskService.deleteDone();
     }
 };
-exports.ChecklistController = ChecklistController;
+exports.TaskController = TaskController;
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], ChecklistController.prototype, "create", null);
+], TaskController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], ChecklistController.prototype, "findAll", null);
+], TaskController.prototype, "findAllTasks", null);
 __decorate([
-    (0, common_1.Put)(':id'),
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], TaskController.prototype, "findTask", null);
+__decorate([
+    (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
-], ChecklistController.prototype, "update", null);
+], TaskController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
+    (0, common_1.Delete)('id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], ChecklistController.prototype, "erase", null);
-exports.ChecklistController = ChecklistController = __decorate([
-    (0, common_1.Controller)('checklist'),
-    __metadata("design:paramtypes", [checklist_service_1.ChecklistService])
-], ChecklistController);
-//# sourceMappingURL=checklist.controller.js.map
+], TaskController.prototype, "erase", null);
+__decorate([
+    (0, common_1.Delete)('delete-done'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TaskController.prototype, "deleteDone", null);
+exports.TaskController = TaskController = __decorate([
+    (0, common_1.Controller)('task'),
+    __metadata("design:paramtypes", [task_service_1.TaskService])
+], TaskController);
+//# sourceMappingURL=task.controller.js.map

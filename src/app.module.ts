@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ChecklistModule } from './checklist/checklist.module';
 import { TaskModule } from './task/task.module';
 import { CategoryModule } from './category/category.module';
 
 @Module({
-  imports: [ChecklistModule, TaskModule, CategoryModule],
+  imports: [TaskModule, CategoryModule],
   controllers: [],
   providers: [],
 })
