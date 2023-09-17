@@ -26,6 +26,8 @@ let TaskController = class TaskController {
         return this.taskService.findAllTasks();
     }
     async findTask(id) {
+        if (id == 'activity')
+            return await this.taskService.getTasksByDoneorActive();
         try {
             const task = await this.taskService.findTask(id);
             if (!task) {
@@ -34,7 +36,7 @@ let TaskController = class TaskController {
             return task;
         }
         catch (err) {
-            throw new common_1.NotFoundException('Task not found');
+            throw new common_1.NotFoundException(`Task with id ${id} not found`);
         }
     }
     async update(id, data) {
@@ -63,6 +65,15 @@ let TaskController = class TaskController {
     }
     async deleteDone() {
         return this.taskService.deleteDone();
+    }
+    async getTaskByActivity() {
+        try {
+            const tasks = await this.getTaskByActivity();
+            return tasks;
+        }
+        catch (err) {
+            throw new Error('Filter of tasks has failed');
+        }
     }
 };
 exports.TaskController = TaskController;
@@ -107,6 +118,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], TaskController.prototype, "deleteDone", null);
+__decorate([
+    (0, common_1.Get)('activity'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TaskController.prototype, "getTaskByActivity", null);
 exports.TaskController = TaskController = __decorate([
     (0, common_1.Controller)('task'),
     __metadata("design:paramtypes", [task_service_1.TaskService])

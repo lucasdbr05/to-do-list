@@ -26,6 +26,9 @@ export declare class TaskController {
         createdAt: Date;
         updatedAt: Date;
         categoryId: number;
+    } | {
+        active: any[];
+        done: any[];
     }>;
     update(id: string, data: UpdateTaskDTO): Promise<{
         id: number;
@@ -44,4 +47,5 @@ export declare class TaskController {
         categoryId: number;
     }>;
     deleteDone(): Promise<import(".prisma/client").Prisma.BatchPayload>;
+    getTaskByActivity(): any;
 }

@@ -27,6 +27,8 @@ export class TaskController {
 
   @Get(':id')
   async findTask(@Param('id') id: string) {
+    if (id == 'activity')
+      return await this.taskService.getTasksByDoneorActive();
     try {
       const task = await this.taskService.findTask(id);
       if (!task) {
@@ -53,6 +55,7 @@ export class TaskController {
 
   @Delete(':id')
   async erase(@Param('id') id: string) {
+    if (id == 'delete-done') return await this.taskService.deleteDone();
     try {
       const task = await this.taskService.erase(id);
       if (!task) {
@@ -66,6 +69,16 @@ export class TaskController {
 
   @Delete('delete-done')
   async deleteDone() {
-    return this.taskService.deleteDone();
+    return await this.taskService.deleteDone();
+  }
+
+  @Get('activity')
+  async getTaskByActivity() {
+    try {
+      const tasks = await this.getTaskByActivity();
+      return tasks;
+    } catch (err) {
+      throw new Error('Filter of tasks has failed');
+    }
   }
 }
