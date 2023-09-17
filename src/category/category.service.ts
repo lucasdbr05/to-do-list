@@ -24,7 +24,13 @@ export class CategoryService {
   }
 
   async findCategories() {
-    return this.prisma.category.findMany();
+    const categoryExists = await this.prisma.category.findMany();
+
+    if (!categoryExists) {
+      throw new Error("Category doesn't exist");
+    }
+
+    return categoryExists;
   }
 
   async update(id: string, data: CategoryDTO) {
