@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Body,
+  NotFoundException, // Import NotFoundException from '@nestjs/common'
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDTO, UpdateTaskDTO } from './task.dto';
@@ -26,17 +27,41 @@ export class TaskController {
 
   @Get(':id')
   async findTask(@Param('id') id: string) {
-    return this.taskService.findTask(id);
+    try {
+      const task = await this.taskService.findTask(id);
+      if (!task) {
+        throw new NotFoundException(`Task with id ${id} not found`);
+      }
+      return task;
+    } catch (err) {
+      throw new NotFoundException(`Task with id ${id} not found`);
+    }
   }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() data: UpdateTaskDTO) {
-    return this.taskService.update(id, data);
+    try {
+      const task = await this.taskService.update(id, data);
+      if (!task) {
+        throw new NotFoundException(`Task with id ${id} not found`);
+      }
+      return task;
+    } catch (err) {
+      throw new NotFoundException(`Task with id ${id} not found`);
+    }
   }
 
-  @Delete('id')
+  @Delete(':id')
   async erase(@Param('id') id: string) {
-    return this.taskService.erase(id);
+    try {
+      const task = await this.taskService.erase(id);
+      if (!task) {
+        throw new NotFoundException(`Task with id ${id} not found`);
+      }
+      return task;
+    } catch (err) {
+      throw new NotFoundException(`Task with id ${id} not found`);
+    }
   }
 
   @Delete('delete-done')

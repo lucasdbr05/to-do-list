@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CategoryDTO } from './category.dto';
 // import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/database/PrismaService';
@@ -27,7 +27,7 @@ export class CategoryService {
     const categoryExists = await this.prisma.category.findMany();
 
     if (!categoryExists) {
-      throw new Error("Category doesn't exist");
+      throw new NotFoundException("Category doesn't exist");
     }
 
     return categoryExists;
@@ -40,7 +40,7 @@ export class CategoryService {
       },
     });
     if (!categoryExists) {
-      throw new Error("Category doesn't exists");
+      throw new NotFoundException("Category doesn't exists");
     }
     return await this.prisma.category.update({
       where: {
@@ -61,7 +61,7 @@ export class CategoryService {
     });
 
     if (!categoryExists) {
-      throw new Error("Category doesn't exists");
+      throw new NotFoundException("Category doesn't exists");
     }
     await this.prisma.task.findMany({
       where: {
@@ -80,15 +80,19 @@ export class CategoryService {
       where: {
         id: parseInt(id),
       },
-      include: {
-        Task: true,
-      },
     });
 
     if (!categoryExists) {
       throw new Error('Category not found');
     }
 
-    return categoryExists;
+    return await this.prisma.category.findUnique({
+      where: {
+        id: parseInt(id),
+      },
+      include: {
+        Task: true,
+      },
+    });
   }
 }
